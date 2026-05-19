@@ -1,0 +1,54 @@
+**/node_modules/
+
+# =========================
+# Node / Frontend (React etc.)
+# =========================
+node_modules/
+**/node_modules/
+dist/
+build/
+.env
+
+# =========================
+# Java / Spring Boot (Backend)
+# =========================
+HELP.md
+target/
+**/target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# IDE - IntelliJ / STS / Eclipse
+# =========================
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+.idea
+*.iws
+*.iml
+*.ipr
+
+# =========================
+# NetBeans
+# =========================
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# =========================
+# VS Code
+# =========================
+.vscode/
