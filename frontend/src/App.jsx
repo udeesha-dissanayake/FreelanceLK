@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
 // ─── API layer (Axios) ────────────────────────────────────────────────────────
-const API_BASE = "http://localhost";
+const API_BASE = "/api/v1";
 
 // Token helpers — JWT persisted in localStorage so session survives page refresh
 const getToken = () => localStorage.getItem("flk_token");
