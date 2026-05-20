@@ -5,7 +5,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/YOUR_USERNAME/freelance-platform.git'
+                git branch: 'main', url: 'https://github.com/udeesha-dissanayake/FreelanceLK.git'
             }
         }
 
