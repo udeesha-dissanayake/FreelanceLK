@@ -14,7 +14,7 @@ pipeline {
                 echo 'Building and deploying...'
                 sh 'docker stop freelancelk-frontend freelancelk-backend freelancelk-db || true'
                 sh 'docker rm freelancelk-frontend freelancelk-backend freelancelk-db || true'
-                sh 'docker compose up -d --build'
+                sh 'docker-compose up -d --build'
             }
         }
 
