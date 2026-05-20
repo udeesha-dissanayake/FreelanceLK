@@ -12,7 +12,8 @@ pipeline {
         stage('Build and Deploy') {
             steps {
                 echo 'Building and deploying...'
-                sh 'docker compose down --remove-orphans'
+                sh 'docker stop freelancelk-frontend freelancelk-backend freelancelk-db || true'
+                sh 'docker rm freelancelk-frontend freelancelk-backend freelancelk-db || true'
                 sh 'docker compose up -d --build'
             }
         }
