@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
 // ─── API layer (Axios) ────────────────────────────────────────────────────────
-const API_BASE = "http://localhost:8080/api/v1";
+const API_BASE = "http://localhost";
 
 // Token helpers — JWT persisted in localStorage so session survives page refresh
 const getToken = () => localStorage.getItem("flk_token");
@@ -4627,9 +4627,9 @@ const DashMyApplications = ({ setPage, setSelectedJobId, showToast }) => {
     setApplications(prev => prev.map(a => a.id === appId ? { ...a, status: "IN_PROGRESS" } : a));
     try {
       await tryEndpoints([
-        { url: `/jobs/applications/${appId}/start`,  method: "POST" },
+        { url: `/jobs/applications/${appId}/start`, method: "POST" },
         { url: `/jobs/applications/${appId}/status`, method: "PATCH", body: { status: "IN_PROGRESS" } },
-        { url: `/jobs/${appId}/start`,               method: "POST" },
+        { url: `/jobs/${appId}/start`, method: "POST" },
       ]);
       showToast("Work started! Give it your best. 💪");
     } catch (e) {
@@ -4646,8 +4646,8 @@ const DashMyApplications = ({ setPage, setSelectedJobId, showToast }) => {
     try {
       await tryEndpoints([
         { url: `/jobs/applications/${appId}/complete`, method: "POST" },
-        { url: `/jobs/applications/${appId}/status`,   method: "PATCH", body: { status: "COMPLETED" } },
-        { url: `/jobs/${appId}/complete`,              method: "POST" },
+        { url: `/jobs/applications/${appId}/status`, method: "PATCH", body: { status: "COMPLETED" } },
+        { url: `/jobs/${appId}/complete`, method: "POST" },
       ]);
       showToast("Marked as complete! Waiting for employer confirmation. ✅");
     } catch (e) {
@@ -4658,11 +4658,11 @@ const DashMyApplications = ({ setPage, setSelectedJobId, showToast }) => {
 
   const statusConfig = (s) => {
     switch (s) {
-      case "ACCEPTED":    return { bg: "#DCFCE7", color: "#16A34A", label: "✅ Accepted" };
+      case "ACCEPTED": return { bg: "#DCFCE7", color: "#16A34A", label: "✅ Accepted" };
       case "IN_PROGRESS": return { bg: "#DBEAFE", color: "#1D4ED8", label: "🔄 In Progress" };
-      case "COMPLETED":   return { bg: "#EDE9FE", color: "#7C3AED", label: "🏆 Completed" };
-      case "REJECTED":    return { bg: "#FEF2F2", color: "#EF4444", label: "❌ Rejected" };
-      default:            return { bg: "#F3F4F6", color: "#6B7280", label: "⏳ Pending" };
+      case "COMPLETED": return { bg: "#EDE9FE", color: "#7C3AED", label: "🏆 Completed" };
+      case "REJECTED": return { bg: "#FEF2F2", color: "#EF4444", label: "❌ Rejected" };
+      default: return { bg: "#F3F4F6", color: "#6B7280", label: "⏳ Pending" };
     }
   };
 
@@ -5155,9 +5155,9 @@ export default function App() {
         const verified = overall >= 80 ? 100 : overall > 0 ? 60 : 0;
         setTrustData({
           idVerification: res.idVerificationScore ?? verified,
-          gigRating:       res.gigRatingScore      ?? Math.min(100, Math.max(0, overall + 2)),
-          jobRating:       res.jobRatingScore      ?? Math.min(100, Math.max(0, overall - 6)),
-          onTimeDelivery:  res.onTimeDeliveryScore ?? Math.min(100, Math.max(0, overall - 2)),
+          gigRating: res.gigRatingScore ?? Math.min(100, Math.max(0, overall + 2)),
+          jobRating: res.jobRatingScore ?? Math.min(100, Math.max(0, overall - 6)),
+          onTimeDelivery: res.onTimeDeliveryScore ?? Math.min(100, Math.max(0, overall - 2)),
         });
       })
       .catch(() => { }); // trust score is non-critical — never block the UI
@@ -5167,15 +5167,15 @@ export default function App() {
   const notifIcon = (type) => {
     if (!type) return "🔔";
     const t = type.toUpperCase();
-    if (t.includes("ORDER"))       return "📦";
+    if (t.includes("ORDER")) return "📦";
     if (t.includes("MESSAGE") || t.includes("CHAT")) return "💬";
     if (t.includes("REVIEW") || t.includes("RATING")) return "⭐";
-    if (t.includes("VERIF"))       return "✅";
+    if (t.includes("VERIF")) return "✅";
     if (t.includes("PAYMENT") || t.includes("WALLET")) return "💰";
     if (t.includes("JOB") || t.includes("APPLY") || t.includes("APPLICATION")) return "💼";
-    if (t.includes("GIG"))         return "🎯";
-    if (t.includes("DISPUTE"))     return "⚖️";
-    if (t.includes("WELCOME"))     return "🎉";
+    if (t.includes("GIG")) return "🎯";
+    if (t.includes("DISPUTE")) return "⚖️";
+    if (t.includes("WELCOME")) return "🎉";
     return "🔔";
   };
 
@@ -5183,7 +5183,7 @@ export default function App() {
   const notifTime = (iso) => {
     if (!iso) return "Recently";
     const diff = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
-    if (diff < 60)   return "Just now";
+    if (diff < 60) return "Just now";
     if (diff < 3600) return `${Math.floor(diff / 60)} min ago`;
     if (diff < 86400) return `${Math.floor(diff / 3600)} hr ago`;
     return `${Math.floor(diff / 86400)}d ago`;
