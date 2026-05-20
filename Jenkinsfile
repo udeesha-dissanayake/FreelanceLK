@@ -11,11 +11,11 @@ pipeline {
 
         stage('Build & Deploy') {
             steps {
-                sh 'docker-compose down --remove-orphans'
-                sh 'docker-compose build --no-cache'
-                sh 'docker-compose up -d'
-            }
-        }
+                echo 'Building and deploying...'
+                sh 'docker compose down --remove-orphans'
+                sh 'docker compose up -d --build'
+    }
+}}
 
     }
 
