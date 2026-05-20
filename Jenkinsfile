@@ -9,13 +9,13 @@ pipeline {
             }
         }
 
-        stage('Build & Deploy') {
+        stage('Build and Deploy') {
             steps {
                 echo 'Building and deploying...'
                 sh 'docker compose down --remove-orphans'
                 sh 'docker compose up -d --build'
-    }
-}}
+            }
+        }
 
     }
 
