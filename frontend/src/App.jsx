@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
+import ChatWidget from './components/ChatWidget';
+
 // ─── API layer (Axios) ────────────────────────────────────────────────────────
 const API_BASE = "/api/v1";
 
@@ -5392,6 +5394,13 @@ export default function App() {
         user={user} setPage={setPage} setTab={setTab}
         setSearchQ={setSearchQ} setAuthMode={setAuthMode} setAuthModal={setAuthModal} openAuthModal={openAuthModal}
       />
+
+
+      <div>
+        {/* all your existing routes/components */}
+        <ChatWidget />   {/* ← add this one line */}
+      </div>
+
 
       {authModal && (
         <AuthModal
