@@ -3,6 +3,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+ARG VITE_GEMINI_KEY
+ENV VITE_GEMINI_KEY=$VITE_GEMINI_KEY
 RUN npm run build
 
 FROM nginx:alpine

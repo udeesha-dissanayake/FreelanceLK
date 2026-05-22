@@ -1,5 +1,4 @@
 services:
-
   postgres:
     image: postgres:16-alpine
     container_name: freelancelk-db
@@ -37,7 +36,10 @@ services:
       - "8080:8080"
 
   frontend:
-    build: ./frontend
+    build: 
+      context: ./frontend
+      args:
+        - VITE_GEMINI_KEY=${VITE_GEMINI_KEY}
     container_name: freelancelk-frontend
     depends_on:
       - backend

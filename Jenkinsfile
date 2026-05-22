@@ -17,6 +17,16 @@ pipeline {
                 sh 'docker volume create postgres_data || true'
                 sh 'docker volume create uploads_data || true'
                 sh 'docker-compose up -d --build'
+
+                withCredentials([string(credentialsId: 'VITE_GEMINI_KEY', variable: 'VITE_GEMINI_KEY')]) {
+            sh '''
+                docker stop freelancelk-frontend || true
+                docker rm freelancelk-frontend || true
+                docker stop freelancelk-backend || true
+                docker rm freelancelk-backend || true
+                VITE_GEMINI_KEY=$VITE_GEMINI_KEY docker-compose up -d --build
+            '''
+        }
             }
         }
 
