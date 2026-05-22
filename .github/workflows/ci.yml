@@ -1,0 +1,42 @@
+name: FreelanceLK CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build Spring Boot with Maven
+        run: cd backend && mvn clean package -DskipTests
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: cd frontend && npm install
+
+      - name: Build React app
+        run: cd frontend && npm run build
+        env:
+          VITE_GEMINI_KEY: ${{ secrets.VITE_GEMINI_KEY }}
