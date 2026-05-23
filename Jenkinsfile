@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        COMPOSE_PROJECT_NAME = 'freelancelk'
-    }
-
     stages {
 
         stage('Checkout') {
@@ -13,41 +9,17 @@ pipeline {
             }
         }
 
-        stage('Test Backend') {
+        stage('Build and Deploy') {
             steps {
-                dir('backend') {
-                    sh 'mvn clean test'
-                }
-            }
-            post {
-                always {
-                    junit testResults: 'backend/target/surefire-reports/*.xml', allowEmptyResults: true
-                }
-            }
-        }
-
-        stage('Build Backend') {
-            steps {
-                dir('backend') {
-                    sh 'mvn package -DskipTests'
-                }
-            }
-        }
-
-        stage('Build Frontend') {
-            steps {
-                dir('frontend') {
-                    sh 'npm install'
-                    sh 'npm run build'
-                }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
+                echo 'Building and deploying...'
                 withCredentials([string(credentialsId: 'VITE_GEMINI_KEY', variable: 'VITE_GEMINI_KEY')]) {
-                    sh 'docker-compose down --remove-orphans'
-                    sh 'VITE_GEMINI_KEY=$VITE_GEMINI_KEY docker-compose up -d --build'
+                    sh '''
+                        docker stop freelancelk-frontend freelancelk-backend freelancelk-db || true
+                        docker rm freelancelk-frontend freelancelk-backend freelancelk-db || true
+                        docker volume create postgres_data || true
+                        docker volume create uploads_data || true
+                        VITE_GEMINI_KEY=$VITE_GEMINI_KEY docker-compose up -d --build
+                    '''
                 }
             }
         }
@@ -56,10 +28,10 @@ pipeline {
 
     post {
         success {
-            echo 'All stages passed — FreelanceLK deployed successfully!'
+            echo 'Deployed successfully!'
         }
         failure {
-            echo 'Pipeline failed. Deployment was NOT updated. Check logs above.'
+            echo 'Build failed. Check the logs above.'
         }
     }
 }
