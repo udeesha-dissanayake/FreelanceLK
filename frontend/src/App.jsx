@@ -4,7 +4,7 @@ import axios from "axios";
 import ChatWidget from './components/ChatWidget';
 
 // ─── API layer (Axios) ────────────────────────────────────────────────────────
-const API_BASE = "/api/v1";
+const API_BASE = (import.meta.env.VITE_API_URL || "") + "/api/v1";
 
 // Token helpers — JWT persisted in localStorage so session survives page refresh
 const getToken = () => localStorage.getItem("flk_token");
@@ -910,13 +910,162 @@ const css = `
   }
   .filter-select:focus { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-light); }
   
+  /* ═══════════════════════════════════════════════
+     RESPONSIVE — Tablet  (≤ 1024px)
+  ═══════════════════════════════════════════════ */
+  @media (max-width: 1024px) {
+    .dash-grid, .admin-grid { grid-template-columns: 220px 1fr; gap: 20px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .section { padding: 56px 1.5rem; }
+  }
+
+  /* ═══════════════════════════════════════════════
+     RESPONSIVE — Mobile  (≤ 768px)
+  ═══════════════════════════════════════════════ */
   @media (max-width: 768px) {
-    .hero-title { font-size: 40px; letter-spacing: -1px; }
+
+    /* ── Nav ── */
+    .nav { padding: 0 1rem; height: 60px; }
     .nav-links { display: none; }
-    .trust-cards, .stats-inner { grid-template-columns: 1fr 1fr; }
-    .footer-grid { grid-template-columns: 1fr 1fr; }
-    .dash-grid { grid-template-columns: 1fr; }
-    .stat-cards { grid-template-columns: 1fr 1fr; }
+    .logo-text { font-size: 15px; }
+    .btn-signin { display: none; }           /* hide "Sign In" text btn — keep Join Now */
+    .nav-right { gap: 6px; }
+
+    /* ── Hero ── */
+    .hero { padding: 56px 1rem 48px; }
+    .hero-title { font-size: 34px; letter-spacing: -1px; line-height: 1.15; }
+    .hero-sub { font-size: 15px; margin-bottom: 28px; }
+    .hero-btns { flex-direction: column; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .hero-btn { width: 100%; max-width: 300px; justify-content: center; }
+    .search-wrap { flex-direction: column; padding: 8px; gap: 8px; border-radius: 14px; }
+    .search-input { padding: 10px 8px; font-size: 15px; }
+    .search-btn { width: 100%; padding: 12px; border-radius: 10px; }
+    .popular { font-size: 13px; gap: 4px; }
+
+    /* ── Sections ── */
+    .section { padding: 40px 1rem; }
+    .section-title { font-size: 24px; letter-spacing: -0.5px; }
+    .section-sub { font-size: 14px; }
+    .section-row { flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 24px; }
+    .nav-arrows { align-self: flex-end; }
+
+    /* ── Cards & Grids ── */
+    .gig-grid { grid-template-columns: 1fr; gap: 16px; }
+    .job-grid { grid-template-columns: 1fr; gap: 14px; }
+    .categories-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .cat-card { padding: 18px 12px; }
+    .cat-emoji { font-size: 26px; margin-bottom: 8px; }
+
+    /* ── Stats bar ── */
+    .stats-bar { padding: 36px 1rem; }
+    .stats-inner { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .stat-num { font-size: 28px; }
+    .stat-label { font-size: 13px; }
+    .stat-cards { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .stat-card { padding: 16px; }
+    .stat-card-val { font-size: 20px; }
+
+    /* ── Trust section ── */
+    .trust-section { padding: 48px 1rem; }
+    .trust-title { font-size: 22px; }
+    .trust-cards { grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    /* ── Dashboard & Admin ── */
+    .dash-grid, .admin-grid { grid-template-columns: 1fr; gap: 16px; }
+    .sidebar, .admin-sidebar { border-radius: 14px; padding: 16px; }
+
+    /* Sidebar nav items: horizontal scrolling row on mobile */
+    .sidebar > div:nth-child(2),
+    .admin-sidebar > div { display: flex; flex-wrap: wrap; gap: 6px; }
+    .sidebar-nav-item, .admin-nav-item {
+      padding: 8px 14px; font-size: 13px; margin-bottom: 0;
+      flex: 0 0 auto;
+    }
+    .sidebar-nav-item:hover, .admin-nav-item:hover { transform: none; }
+
+    /* ── Footer ── */
+    .footer { padding: 40px 1rem 20px; margin-top: 40px; }
+    .footer-grid { grid-template-columns: 1fr; gap: 24px; margin-bottom: 28px; }
+    .footer-brand-desc { max-width: 100%; font-size: 13px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .footer-bottom-links { flex-wrap: wrap; justify-content: center; gap: 12px; }
+
+    /* ── Filter bar ── */
+    .filter-bar { gap: 8px; }
+    .filter-select { font-size: 13px; padding: 7px 10px; }
+
+    /* ── Page header ── */
+    .page-header { padding: 20px 1rem 0; }
+    .page-header-title { font-size: 20px; }
+
+    /* ── Tabs ── */
+    .tabs { width: 100%; display: flex; }
+    .tab { flex: 1; text-align: center; padding: 8px 10px; font-size: 13px; }
+
+    /* ── Modals ── */
+    .modal { padding: 28px 20px; border-radius: 18px; }
+    .modal-title { font-size: 20px; }
+
+    /* ── Notification panel ── */
+    .notif-panel { width: 290px; right: -8px; }
+
+    /* ── Toast ── */
+    /* (inline style — override via important) */
+  }
+
+  /* ═══════════════════════════════════════════════
+     RESPONSIVE — Small mobile  (≤ 480px)
+  ═══════════════════════════════════════════════ */
+  @media (max-width: 480px) {
+    .hero-title { font-size: 28px; }
+    .hero-sub { font-size: 14px; }
+    .categories-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .trust-cards { grid-template-columns: 1fr; }
+    .stats-inner { grid-template-columns: 1fr 1fr; }
+    .stat-num { font-size: 24px; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .gig-grid, .job-grid { grid-template-columns: 1fr; }
+    .notif-panel { width: calc(100vw - 24px); right: -60px; }
+    .section-title { font-size: 21px; }
+    .stat-cards { grid-template-columns: 1fr; }
+  }
+
+  /* ── Hamburger button (hidden on desktop) ── */
+  .hamburger {
+    display: none;
+    background: none; border: none; font-size: 22px;
+    cursor: pointer; color: var(--text); padding: 4px 8px;
+    border-radius: 8px; line-height: 1;
+    transition: background 0.2s;
+  }
+  .hamburger:hover { background: var(--bg-muted); }
+
+  /* ── Mobile slide-down menu ── */
+  .mobile-menu {
+    display: none;
+    position: fixed; top: 60px; left: 0; right: 0; z-index: 99;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    padding: 8px 0 12px;
+    flex-direction: column;
+    animation: fadeUp 0.2s ease forwards;
+  }
+  .mobile-menu-item {
+    display: block; width: 100%; text-align: left;
+    padding: 13px 20px; font-size: 15px; font-weight: 500;
+    color: var(--text); background: none; border: none;
+    cursor: pointer; font-family: inherit;
+    transition: background 0.15s;
+  }
+  .mobile-menu-item:hover { background: var(--bg-muted); }
+
+  /* ── Show hamburger & mobile menu only on mobile ── */
+  @media (max-width: 768px) {
+    .hamburger { display: block; }
+    .mobile-menu { display: flex; }
+    .nav-user-name { display: none; }
   }
 `;
 
@@ -972,106 +1121,133 @@ const JobCard = ({ job, onApply, onView, saved, onSave }) => (
 );
 
 // ─── Nav ──────────────────────────────────────────────────────────────────────
-const Nav = ({ user, setPage, setTab, setAuthMode, openAuthModal, setAuthModal, setUser, setForm, notifications, setNotifications, showNotifPanel, setShowNotifPanel, darkMode, setDarkMode, loadNotifications }) => (
-  <nav className="nav">
-    <div className="nav-left">
-      <div style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }} onClick={() => setPage("home")}>
-        <div className="logo-badge">FL</div>
-        <span className="logo-text">Freelancelk</span>
-      </div>
-      <div className="nav-links">
-        {!user && (
-          /* Logged-out: show general nav */
-          <>
-            <button className="nav-link" onClick={() => { setPage("browse"); setTab("gigs"); }}>Find Services</button>
-            <button className="nav-link" onClick={() => { setPage("browse"); setTab("jobs"); }}>Find Jobs</button>
-            <button className="nav-link" onClick={() => setPage("about")}>About</button>
-          </>
-        )}
-        {user && (
-          <>
-            {/* FREELANCER */}
-            {user.role === "FREELANCER" && (
-              <>
-                <button className="nav-link" onClick={() => { setPage("browse"); setTab("jobs"); }}>Find Jobs</button>
-                <button className="nav-link" onClick={() => setPage("about")}>About</button>
-                <button className="nav-link" style={{ color: C.blue, fontWeight: 600 }} onClick={() => setPage("create-gig")}>+ Create Gig</button>
-              </>
-            )}
-            {/* CLIENT */}
-            {user.role === "CLIENT" && (
-              <>
-                <button className="nav-link" onClick={() => { setPage("browse"); setTab("gigs"); }}>Find Services</button>
-                <button className="nav-link" onClick={() => setPage("about")}>About</button>
-                <button className="nav-link" style={{ color: C.green, fontWeight: 600 }} onClick={() => setPage("post-job")}>Post a Job</button>
-              </>
-            )}
-            {/* ADMIN */}
-            {user.role === "ADMIN" && (
-              <>
-                <button className="nav-link" onClick={() => { setPage("browse"); setTab("gigs"); }}>Find Services</button>
-                <button className="nav-link" onClick={() => { setPage("browse"); setTab("jobs"); }}>Find Jobs</button>
-                <button className="nav-link" onClick={() => setPage("about")}>About</button>
-                <button className="nav-link" style={{ color: "#EF4444", fontWeight: 600 }} onClick={() => setPage("admin")}>Admin ⚙️</button>
-              </>
-            )}
-          </>
-        )}
-      </div>
-    </div>
-    <div className="nav-right">
-      <button className="theme-toggle" onClick={() => setDarkMode(d => !d)} title={darkMode ? "Switch to light mode" : "Switch to dark mode"}>
-        {darkMode ? "☀️" : "🌙"}
-      </button>
-      {user ? (
-        <>
-          <div style={{ position: "relative" }}>
-            <button className="notif-bell" onClick={e => { e.stopPropagation(); setShowNotifPanel(p => !p); }} title="Notifications">
-              🔔
-              {notifications.some(n => !n.read) && <span className="notif-dot" />}
-            </button>
-            {showNotifPanel && (
-              <div className="notif-panel" onClick={e => e.stopPropagation()}>
-                <div className="notif-header">
-                  <span style={{ fontWeight: 700, fontSize: 14 }}>Notifications</span>
-                  <button style={{ fontSize: 12, color: C.blue, background: "none", border: "none", cursor: "pointer", fontFamily: "inherit", fontWeight: 600 }}
-                    onClick={async () => { setNotifications(ns => ns.map(n => ({ ...n, read: true }))); try { await apiFetch("/notifications/read-all", { method: "PATCH" }); loadNotifications && loadNotifications(); } catch (_) { } }}>Mark all read</button>
-                </div>
-                {notifications.length === 0
-                  ? <div style={{ padding: "20px", textAlign: "center", color: C.gray, fontSize: 13 }}>No notifications</div>
-                  : notifications.map(n => (
-                    <div key={n.id} className={`notif-item ${!n.read ? "unread" : ""}`}
-                      onClick={async () => { setNotifications(ns => ns.map(x => x.id === n.id ? { ...x, read: true } : x)); if (!n.read && n.id) { try { await apiFetch(`/notifications/${n.id}/read`, { method: "PATCH" }); } catch (_) { try { await apiFetch(`/notifications/${n.id}/mark-read`, { method: "POST" }); } catch (__) { } } } }}>
-                      <span style={{ fontSize: 20, flexShrink: 0 }}>{n.icon}</span>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: 13, fontWeight: 500, marginBottom: 2 }}>{n.text}</div>
-                        <div style={{ fontSize: 11, color: C.gray }}>{n.time}</div>
-                      </div>
-                      {!n.read && <span style={{ width: 8, height: 8, background: C.blue, borderRadius: "50%", flexShrink: 0, marginTop: 4 }} />}
+const Nav = ({ user, setPage, setTab, setAuthMode, openAuthModal, setAuthModal, setUser, setForm, notifications, setNotifications, showNotifPanel, setShowNotifPanel, darkMode, setDarkMode, loadNotifications }) => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const closeMobile = (fn) => { fn && fn(); setMobileMenuOpen(false); };
+
+  const navLinks = !user ? [
+    { label: "Find Services", action: () => { setPage("browse"); setTab("gigs"); } },
+    { label: "Find Jobs",     action: () => { setPage("browse"); setTab("jobs"); } },
+    { label: "About",         action: () => setPage("about") },
+  ] : user.role === "FREELANCER" ? [
+    { label: "Find Jobs",    action: () => { setPage("browse"); setTab("jobs"); } },
+    { label: "About",        action: () => setPage("about") },
+    { label: "+ Create Gig", action: () => setPage("create-gig"), color: C.blue },
+  ] : user.role === "CLIENT" ? [
+    { label: "Find Services", action: () => { setPage("browse"); setTab("gigs"); } },
+    { label: "About",         action: () => setPage("about") },
+    { label: "Post a Job",    action: () => setPage("post-job"), color: C.green },
+  ] : user.role === "ADMIN" ? [
+    { label: "Find Services", action: () => { setPage("browse"); setTab("gigs"); } },
+    { label: "Find Jobs",     action: () => { setPage("browse"); setTab("jobs"); } },
+    { label: "About",         action: () => setPage("about") },
+    { label: "Admin ⚙️",     action: () => setPage("admin"), color: "#EF4444" },
+  ] : [];
+
+  return (
+    <>
+      <nav className="nav">
+        <div className="nav-left">
+          <div style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }} onClick={() => setPage("home")}>
+            <div className="logo-badge">FL</div>
+            <span className="logo-text">Freelancelk</span>
+          </div>
+          <div className="nav-links">
+            {navLinks.map(l => (
+              <button key={l.label} className="nav-link" style={l.color ? { color: l.color, fontWeight: 600 } : {}} onClick={l.action}>{l.label}</button>
+            ))}
+          </div>
+        </div>
+
+        <div className="nav-right">
+          <button className="theme-toggle" onClick={() => setDarkMode(d => !d)} title={darkMode ? "Switch to light mode" : "Switch to dark mode"}>
+            {darkMode ? "☀️" : "🌙"}
+          </button>
+          {user ? (
+            <>
+              <div style={{ position: "relative" }}>
+                <button className="notif-bell" onClick={e => { e.stopPropagation(); setShowNotifPanel(p => !p); }} title="Notifications">
+                  🔔
+                  {notifications.some(n => !n.read) && <span className="notif-dot" />}
+                </button>
+                {showNotifPanel && (
+                  <div className="notif-panel" onClick={e => e.stopPropagation()}>
+                    <div className="notif-header">
+                      <span style={{ fontWeight: 700, fontSize: 14 }}>Notifications</span>
+                      <button style={{ fontSize: 12, color: C.blue, background: "none", border: "none", cursor: "pointer", fontFamily: "inherit", fontWeight: 600 }}
+                        onClick={async () => { setNotifications(ns => ns.map(n => ({ ...n, read: true }))); try { await apiFetch("/notifications/read-all", { method: "PATCH" }); loadNotifications && loadNotifications(); } catch (_) { } }}>Mark all read</button>
                     </div>
-                  ))}
+                    {notifications.length === 0
+                      ? <div style={{ padding: "20px", textAlign: "center", color: C.gray, fontSize: 13 }}>No notifications</div>
+                      : notifications.map(n => (
+                        <div key={n.id} className={`notif-item ${!n.read ? "unread" : ""}`}
+                          onClick={async () => { setNotifications(ns => ns.map(x => x.id === n.id ? { ...x, read: true } : x)); if (!n.read && n.id) { try { await apiFetch(`/notifications/${n.id}/read`, { method: "PATCH" }); } catch (_) { try { await apiFetch(`/notifications/${n.id}/mark-read`, { method: "POST" }); } catch (__) { } } } }}>
+                          <span style={{ fontSize: 20, flexShrink: 0 }}>{n.icon}</span>
+                          <div style={{ flex: 1 }}>
+                            <div style={{ fontSize: 13, fontWeight: 500, marginBottom: 2 }}>{n.text}</div>
+                            <div style={{ fontSize: 11, color: C.gray }}>{n.time}</div>
+                          </div>
+                          {!n.read && <span style={{ width: 8, height: 8, background: C.blue, borderRadius: "50%", flexShrink: 0, marginTop: 4 }} />}
+                        </div>
+                      ))}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} onClick={() => setPage("dashboard")}>
-            <div className="avatar" style={{ background: C.blue, width: 36, height: 36 }}>{user.initials}</div>
-            <span style={{ fontSize: 14, fontWeight: 600, color: C.text }}>{user.name.split(" ")[0]}</span>
-          </div>
-          <button className="btn-signin" onClick={async () => {
-            try { const rt = getRefresh(); if (rt) await apiFetch("/auth/logout", { method: "POST", body: JSON.stringify({ refreshToken: rt }) }); } catch (_) { }
-            clearToken(); clearRefresh(); setUser(null); setPage("home");
-            setForm({ email: "", password: "", name: "", role: "FREELANCER" });
-          }}>Logout</button>
-        </>
-      ) : (
-        <>
-          <button className="btn-signin" onClick={() => openAuthModal("login")}>Sign In</button>
-          <button className="btn-join" onClick={() => openAuthModal("register")}>Join Now</button>
-        </>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} onClick={() => setPage("dashboard")}>
+                <div className="avatar" style={{ background: C.blue, width: 36, height: 36 }}>{user.initials}</div>
+                <span className="nav-user-name" style={{ fontSize: 14, fontWeight: 600, color: C.text }}>{user.name.split(" ")[0]}</span>
+              </div>
+              <button className="btn-signin" onClick={async () => {
+                try { const rt = getRefresh(); if (rt) await apiFetch("/auth/logout", { method: "POST", body: JSON.stringify({ refreshToken: rt }) }); } catch (_) { }
+                clearToken(); clearRefresh(); setUser(null); setPage("home");
+                setForm({ email: "", password: "", name: "", role: "FREELANCER" });
+              }}>Logout</button>
+            </>
+          ) : (
+            <>
+              <button className="btn-signin" onClick={() => openAuthModal("login")}>Sign In</button>
+              <button className="btn-join" onClick={() => openAuthModal("register")}>Join Now</button>
+            </>
+          )}
+          {/* Hamburger — mobile only */}
+          <button
+            className="hamburger"
+            onClick={() => setMobileMenuOpen(o => !o)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? "✕" : "☰"}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile slide-down menu */}
+      {mobileMenuOpen && (
+        <div className="mobile-menu" onClick={() => setMobileMenuOpen(false)}>
+          {navLinks.map(l => (
+            <button key={l.label} className="mobile-menu-item" style={l.color ? { color: l.color } : {}} onClick={() => closeMobile(l.action)}>{l.label}</button>
+          ))}
+          <div style={{ borderTop: "1px solid var(--border)", margin: "8px 0" }} />
+          {user ? (
+            <>
+              <button className="mobile-menu-item" onClick={() => closeMobile(() => setPage("dashboard"))}>👤 My Dashboard</button>
+              <button className="mobile-menu-item" style={{ color: "#EF4444" }} onClick={async () => {
+                try { const rt = getRefresh(); if (rt) await apiFetch("/auth/logout", { method: "POST", body: JSON.stringify({ refreshToken: rt }) }); } catch (_) { }
+                clearToken(); clearRefresh(); setUser(null); setPage("home");
+                setForm({ email: "", password: "", name: "", role: "FREELANCER" });
+                setMobileMenuOpen(false);
+              }}>🚪 Logout</button>
+            </>
+          ) : (
+            <>
+              <button className="mobile-menu-item" onClick={() => closeMobile(() => openAuthModal("login"))}>Sign In</button>
+              <button className="mobile-menu-item" style={{ color: C.blue, fontWeight: 700 }} onClick={() => closeMobile(() => openAuthModal("register"))}>Join Now — Free</button>
+            </>
+          )}
+        </div>
       )}
-    </div>
-  </nav>
-);
+    </>
+  );
+};
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
 const Footer = ({ user, setPage, setTab, setSearchQ, setAuthMode, setAuthModal, openAuthModal }) => (
@@ -1403,7 +1579,7 @@ const LandingHome = ({ heroMode, setHeroMode, searchQ, setSearchQ, setTab, setPa
         </div>
       </div>
 
-      <div style={{ background: "linear-gradient(135deg, #DCFCE7 0%, #E0F2FE 100%)" }}>
+      <div style={{ background: "var(--jobs-section-bg)" }}>
         <div className="section">
           <div className="section-row">
             <div><div className="section-title">Latest Part-Time Jobs</div><div className="section-sub">Fresh opportunities posted by verified employers</div></div>
@@ -5353,7 +5529,7 @@ export default function App() {
     <>
       <style dangerouslySetInnerHTML={{ __html: css }} />
       {toast && (
-        <div style={{ position: "fixed", top: 20, right: 20, zIndex: 999, background: toast.type === "success" ? C.green : "#EF4444", color: "white", padding: "12px 20px", borderRadius: 12, fontSize: 14, fontWeight: 500, boxShadow: "0 4px 20px rgba(0,0,0,0.25)", display: "flex", alignItems: "center", gap: 8, backdropFilter: "blur(8px)" }}>
+        <div style={{ position: "fixed", top: 16, left: "50%", transform: "translateX(-50%)", zIndex: 999, background: toast.type === "success" ? C.green : "#EF4444", color: "white", padding: "12px 20px", borderRadius: 12, fontSize: 14, fontWeight: 500, boxShadow: "0 4px 20px rgba(0,0,0,0.25)", display: "flex", alignItems: "center", gap: 8, backdropFilter: "blur(8px)", whiteSpace: "nowrap", maxWidth: "calc(100vw - 32px)" }}>
           {toast.type === "success" ? "✅" : "⚠️"} {toast.msg}
         </div>
       )}

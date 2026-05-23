@@ -38,8 +38,10 @@ services:
   frontend:
     build: 
       context: ./frontend
+      dockerfile: Dockerfile
       args:
         - VITE_GEMINI_KEY=${VITE_GEMINI_KEY}
+        - NGINX_CONF=nginx.local.conf
     container_name: freelancelk-frontend
     depends_on:
       - backend
